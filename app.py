@@ -2,7 +2,7 @@ import os
 import win32com.client
 
 # Specify the file path
-file_path = "C:\\Users\\furkan.cakir\\Desktop\\FurkanPRS\\Kodlar\\Fixidesk Excel Düzenleme\\old.xlsx"
+file_path = "C:\\Users\\furkan.cakir\\Desktop\\FurkanPRS\\Kodlar\\Python_Excel_Data_Matching_Copy\\old.xlsx"
 
 # Check if the file exists
 if os.path.exists(file_path):
@@ -14,18 +14,24 @@ if os.path.exists(file_path):
         result_sheet = workbook.Sheets("logo")
         excel.Visible = False
 
-        # Match fixidesk A columns cell and logo's D columns cell
+        # Read data into dictionaries for fixidesk and logo columns
+        fixidesk_data = {}
+        logo_data = {}
         fixidesk_range = worksheet.Range("A:A")
         logo_range = result_sheet.Range("D:D")
-        for fixidesk_cell in fixidesk_range:
-            fixidesk_value = fixidesk_cell.Value
-            for logo_cell in logo_range:
-                logo_value = logo_cell.Value
-                if fixidesk_value == logo_value:
-                    # Get the value from logo B and write it to fixidesk C
-                    fixidesk_cell.Offset(0, 2).Value = logo_cell.Offset(0, 1).Value
-                    # Get the value from logo C and write it to fixidesk D
-                    fixidesk_cell.Offset(0, 3).Value = logo_cell.Offset(0, 2).Value
+        for i, fixidesk_value in enumerate(fixidesk_range.Value):
+            fixidesk_data[fixidesk_value] = i + 1
+        for i, logo_value in enumerate(logo_range.Value):
+            logo_data[logo_value] = i + 1
+
+        # Find matching values and update fixidesk columns
+        for fixidesk_value, fixidesk_row in fixidesk_data.items():
+            if fixidesk_value in logo_data:
+                logo_row = logo_data[fixidesk_value]
+                # Get the value from logo B and write it to fixidesk C
+                worksheet.Cells(fixidesk_row, 3).Value = result_sheet.Cells(logo_row, 2).Value
+                # Get the value from logo C and write it to fixidesk D
+                worksheet.Cells(fixidesk_row, 4).Value = result_sheet.Cells(logo_row, 3).Value
 
         # Save and close the workbook
         workbook.Save()
@@ -36,6 +42,3 @@ if os.path.exists(file_path):
     finally:
         # Quit the Excel application
         excel.Quit()
-        
-
-# Rest of the code...
