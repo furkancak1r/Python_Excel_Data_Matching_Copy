@@ -1,6 +1,6 @@
 import os
 import win32com.client
-
+# Logo'dan fixidesk'e eşleşen fatura numarası ve tarihleri yazdırmak için kullanıldı
 # Specify the file path
 file_path = "C:\\Users\\furkan.cakir\\Desktop\\FurkanPRS\\Kodlar\\Python_Excel_Data_Matching_Copy\\old.xlsx"
 
