@@ -17,7 +17,6 @@ def process_excel(file_path):
 
         # Get column indices
         yazilacak_col_index = 0  # Adjust the column index as needed
-        veriler_col_index = 0    # Adjust the column index as needed
 
         # Create a dictionary for faster lookups
         veriler_dict = dict(zip(veriler_data[:, 0], veriler_data[:, 2]))
@@ -28,7 +27,7 @@ def process_excel(file_path):
 
             # Check if the value is in veriler_dict
             if yazilacak_value in veriler_dict:
-                yazilacak_sheet.Cells(i + 1, 7).Value = veriler_dict[yazilacak_value]
+                yazilacak_sheet.Cells(i + 1, 8).Value = veriler_dict[yazilacak_value]
 
         # Save and close the workbook
         workbook.Save()
